@@ -36,3 +36,5 @@ const User = db.define('Users', {
         type: DataTypes.DATE
     }
 })
+
+module.exports = User

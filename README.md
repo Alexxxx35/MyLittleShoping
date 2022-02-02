@@ -10,12 +10,3 @@ DB_USERNAME=DB_USERNAME
 DB_PASSWORD=DB_PASSWORD
 DIALECT=DIALECT
 ```
-## packages installation
-```bash
-npm i express
-npm i nodemon
-npm i dotenv
-npm i crypto-js
-npm i sequelize
-npm install pg 
-```

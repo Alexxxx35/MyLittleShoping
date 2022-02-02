@@ -4,17 +4,23 @@ const CryptoJS = require("crypto-js")
 
 //REGISTER
 router.post("/register", async (request, response) => {
-    if (!request.body.email || !request.body.username || !request.body.password || !request.body.birthdate || !request.body.role) {
-        response.setHeader('Content-Type', 'application/json').status(400).json({
-            "response": "Bad json format!"
-        });
-    }
+    // if (!request.body.email || !request.body.username || !request.body.password || !request.body.birthdate || !request.body.role) {
+    //     response.setHeader('Content-Type', 'application/json').status(400).json({
+    //         "response": "Bad json format!"
+    //     });
+    // }
+    var date = new Date();
+    date = date.toISOString().split("T")[0] + " " + date.toISOString().split("T")[1].split(".")[0];
+    console.log("DATE!!!!!", date)
     const newUser = new User({
         email: request.body.email,
-        username: request.body.username,
+        firstName: request.body.firstName,
+        lastName: request.body.lastName,
         password: CryptoJS.AES.encrypt(request.body.password, process.env.PASSWORD_SECRET).toString(),
-        birthdate: request.body.birthdate,
+        birthDate: request.body.birthdate,
         role: request.body.role,
+        createdAt: date,
+        modifiedAt: date
     });
     try {
         await newUser.save();
