@@ -22,19 +22,22 @@ if (process.env.NODE_ENV === "development") {
     db.authenticate().
     then(() => console.log(`Connected to data base ${dbName}...`))
     .catch((error) => console.log(error));
-    db.sync({ force: force }).
-        then(
-            () => {
-                execSync('npx sequelize-cli  db:seed --seed 20220212150215-users.js', { encoding: 'utf-8' });
-                console.log(`database ${dbName} synced!`)
-            }
-                
-            
-        )
-        .catch((error) => console.log(error));
+
+// DB ASSOCIATIONS
+user.hasMany(userAddress);
 
 
-} 
+// DB SYNC
+db.sync({ force: force })
+    .then(
+        () => {
+            execSync('npx sequelize-cli  db:seed --seed 20220212150215-users.js', { encoding: 'utf-8' });
+            console.log(`database ${dbName} synced!`)
+        }
+              
+        
+    )
+    .catch((error) => console.log(error));
     
 const app = express();
 //ROUTES

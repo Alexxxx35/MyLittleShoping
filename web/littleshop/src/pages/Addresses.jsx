@@ -87,6 +87,30 @@ const Addresses = () => {
         setMainAddressId(id);
     };
 
+<<<<<<< HEAD
+=======
+  const chooseMainAddress = (id) => {
+    for (let i = 0; i < addresses.length; i++) {
+      if (addresses[i].id === id) {
+        addresses[i].mainAddress = true;
+        setPopupTitle("LittleShop Account management information");
+        setPopupContent(
+          `Your products will be delivered to ${addresses[i].address1} ${
+            addresses[i].address2
+          } ${addresses[i].address3 ? addresses[i].address3 : null} in ${
+            addresses[i].city
+          } ${addresses[i].region} ${addresses[i].country}`
+        );
+        popupHandler().then(() => {});
+      } else {
+        addresses[i].mainAddress = false;
+      }
+    }
+    localStorage.setItem("addresses", JSON.stringify(addresses));
+    console.log(JSON.parse(localStorage.getItem("addresses")));
+    setMainAddressId(id);
+  };
+>>>>>>> 6fe4bf84d8ca88e09c242c2aad5253f7ce5f84bf
 
 
     useEffect(() => {

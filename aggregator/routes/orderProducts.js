@@ -98,7 +98,6 @@ router.post("/orderProducts", async (request, response) => {
                 }
             }
         );
-        console.log("#########PRODUCT############")
         const userId = userAddressToUse.data.userId;
         const userRole = userAddressToUse.data.userRole;
         if (userRole == "buyer") {
@@ -107,13 +106,13 @@ router.post("/orderProducts", async (request, response) => {
                     userId: userId
                 }
             });
-            console.log("#########PRODUCT############")
-            console.log(productsInCart.data.response)
             if (productsInCart.data.response.length == 0) {
                 return response.status(404).json({
                     "response": "No product found in user cart"
                 });
             }
+            console.log("WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOLOLOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+
             const stockUpdate = await axios.put(roads.UPDATE_PRODUCTS_STOCKS,
                 productsInCart.data.response
             )

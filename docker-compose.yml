@@ -1,0 +1,152 @@
+version: "3.3"
+services:
+  db:
+    image: postgres:latest
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    container_name: shop_db
+    environment:
+      - DB_NAME=${DB_NAME}
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - ./db-data/:/var/lib/postgresql/data/
+    restart: on-failure
+
+  aggregator:
+    build: ./aggregator/
+    ports:
+      - "${APP_AGGREGATOR_PORT}:${APP_AGGREGATOR_PORT}"
+    environment:
+      - APP_AGGREGATOR_PORT=${APP_AGGREGATOR_PORT}
+      - NODE_ENV=${NODE_ENV}
+      - DIALECT=${DIALECT}
+      - JWT_SECRET=${JWT_SECRET}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DBTEST_NAME=${DBTEST_NAME}
+      - DBTEST_USERNAME=${DBTEST_USERNAME}
+      - DBTEST_PASSWORD=${DBTEST_PASSWORD}
+      - DBTEST_PORT=${DBTEST_PORT}
+    container_name: littleshop_aggregator
+    depends_on:
+      - db
+      - authentication
+      - inventory
+      - mailer
+      - orders
+    restart: on-failure
+    volumes:
+      - ./aggregator:/aggregator
+
+  authentication:
+    build: ./authentication/
+    ports:
+      - "${APP_AUTHENTICATION_PORT}:${APP_AUTHENTICATION_PORT}"
+    environment:
+      - APP_AUTHENTICATION_PORT=${APP_AUTHENTICATION_PORT}
+      - NODE_ENV=${NODE_ENV}
+      - DIALECT=${DIALECT}
+      - JWT_SECRET=${JWT_SECRET}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DBTEST_NAME=${DBTEST_NAME}
+      - DBTEST_USERNAME=${DBTEST_USERNAME}
+      - DBTEST_PASSWORD=${DBTEST_PASSWORD}
+      - DBTEST_PORT=${DBTEST_PORT}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - PASSWORD_SECRET=${PASSWORD_SECRET}
+    container_name: shop_authentication
+    depends_on:
+      - db
+    restart: on-failure
+    volumes:
+      - ./authentication:/authentication
+
+  inventory:
+    build: ./inventory/
+    ports:
+      - "${APP_INVENTORY_PORT}:${APP_INVENTORY_PORT}"
+    environment:
+      - APP_INVENTORY_PORT=${APP_INVENTORY_PORT}
+      - NODE_ENV=${NODE_ENV}
+      - DIALECT=${DIALECT}
+      - JWT_SECRET=${JWT_SECRET}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DBTEST_NAME=${DBTEST_NAME}
+      - DBTEST_USERNAME=${DBTEST_USERNAME}
+      - DBTEST_PASSWORD=${DBTEST_PASSWORD}
+      - DBTEST_PORT=${DBTEST_PORT}
+    container_name: shop_inventory
+    depends_on:
+      - db
+    restart: on-failure
+    volumes:
+      - ./inventory:/inventory
+
+  mailer:
+    build: ./mailer/
+    ports:
+      - "${APP_MAILER_PORT}:${APP_MAILER_PORT}"
+    environment:
+      - APP_MAILER_PORT=${APP_MAILER_PORT}
+      - NODE_ENV=${NODE_ENV}
+      - DIALECT=${DIALECT}
+      - JWT_SECRET=${JWT_SECRET}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DBTEST_NAME=${DBTEST_NAME}
+      - DBTEST_USERNAME=${DBTEST_USERNAME}
+      - DBTEST_PASSWORD=${DBTEST_PASSWORD}
+      - DBTEST_PORT=${DBTEST_PORT}
+    container_name: shop_mailer
+    depends_on:
+      - db
+    restart: on-failure
+    volumes:
+      - ./mailer:/mailer
+
+  orders:
+    build: ./orders/
+    ports:
+      - "${APP_ORDER_PORT}:${APP_ORDER_PORT}"
+    environment:
+      - APP_ORDER_PORT=${APP_ORDER_PORT}
+      - NODE_ENV=${NODE_ENV}
+      - DIALECT=${DIALECT}
+      - JWT_SECRET=${JWT_SECRET}
+      - DB_NAME=${DB_NAME}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DBTEST_NAME=${DBTEST_NAME}
+      - DBTEST_USERNAME=${DBTEST_USERNAME}
+      - DBTEST_PASSWORD=${DBTEST_PASSWORD}
+      - DBTEST_PORT=${DBTEST_PORT}
+    container_name: shop_order
+    depends_on:
+      - db
+    restart: on-failure
+    volumes:
+      - ./orders:/orders
+
+  web:
+    build: ./web/littleshop/
+    ports:
+      - "${WEB_FRONT_PORT}:${WEB_FRONT_PORT}"
+    container_name: shop_web
+    depends_on:
+      - aggregator
+    restart: on-failure
+    # volumes:
+    #   - ./web/:/web/
