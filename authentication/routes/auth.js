@@ -62,6 +62,7 @@ router.post("/register", async (request, response) => {
 
 // LOGIN
 router.post("/login", checkPasswordWithEmail, async (request, response) => {
+    var loggerDate = new Date().toISOString()
     logger.info(`timestamp:${loggerDate}, headers:${request.headers}, url:${request.url}, method:${request.method}, body:${request.body}`)
     if (!request.body.email || !request.body.password) {
         return response.status(400).json({

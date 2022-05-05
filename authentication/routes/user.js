@@ -94,7 +94,7 @@ router.put("/disable", [checkToken, checkAdminPasswordWithId], async (request, r
 })
 
 // DEACTIVATE ACCOUNT
-router.put("/deactivate", [checkToken, checkPasswordWithId], async (request, response) => {
+router.put("/deactivate", checkToken, async (request, response) => {
     try {
         var loggerDate = new Date().toISOString()
         logger.info(`timestamp:${loggerDate}, headers:${request.headers}, url:${request.url}, method:${request.method}, body:${request.body}`)

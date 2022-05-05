@@ -46,6 +46,7 @@ const AdminForm = (props) => {
         </button>
         <div className="form-wrapper">
           <h1>ADMIN FORM</h1>
+          {props.email}
           <label>
             <b>PASSWORD:</b>
           </label>

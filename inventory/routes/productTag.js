@@ -9,7 +9,9 @@ var logger = require('../settings/logger');
 
 // GET TAGS FOR PRODUCTS
 router.get("/productTags", async (request, response) => {
+    var loggerDate = new Date().toISOString()
     try {
+        
         logger.info(`timestamp:${loggerDate}, headers:${request.headers}, url:${request.url}, method:${request.method}, query:${request.query}`)
         logger.debug(`productIds: ${request.query.productIds}`)
         const productTags = await ProductTag.findAll({
@@ -31,7 +33,9 @@ router.get("/productTags", async (request, response) => {
 
 // GET ALL CATEGORIES TAGS FOR FRONT END DROPDOWN
 router.get("/productTagsNames", async (request, response) => {
+    var loggerDate = new Date().toISOString()
     try {
+        
         logger.info(`timestamp:${loggerDate}, headers:${request.headers}, url:${request.url}, method:${request.method}, query:${request.query}`)
         var tagNames = []
         const tags = await sequelizeDev.query('SELECT DISTINCT name FROM "productTag"', {
@@ -55,6 +59,7 @@ router.get("/productTagsNames", async (request, response) => {
 
 // ADD PRODUCT TAGS 
 router.post("/productTags", async (request, response) => {
+    var loggerDate = new Date().toISOString()
     try {
         logger.info(`timestamp:${loggerDate}, headers:${request.headers}, url:${request.url}, method:${request.method}, body:${request.body}`)
         var productTags = []

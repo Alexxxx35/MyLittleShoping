@@ -6,6 +6,7 @@ var logger = require('../settings/logger');
 
 // DEDICATED ROAD FOR PRODUCTS AVERAGE RATING
 router.get("/ratingsProducts", async (request, response) => {
+    var loggerDate = new Date().toISOString()
     try {
         logger.info(`timestamp:${loggerDate}, headers:${request.headers}, url:${request.url}, method:${request.method}, query:${request.query}`)
         logger.debug(`productIds: ${request.query.productIds}`)
@@ -27,6 +28,7 @@ router.get("/ratingsProducts", async (request, response) => {
 
 // DEDICATED ROAD FOR ALL RATES PER USER
 router.get("/ratingsProductsPerUser", async (request, response) => {
+    var loggerDate = new Date().toISOString()
     try {
         logger.info(`timestamp:${loggerDate}, headers:${request.headers}, url:${request.url}, method:${request.method}, query:${request.query}`)
         logger.debug(`productIds: ${request.query.productIds}`)
@@ -49,6 +51,7 @@ router.get("/ratingsProductsPerUser", async (request, response) => {
 
 //POST A RATING ON AN ORDERED PRODUCT
 router.post("/ratingProduct", async (request, response) => {
+    var loggerDate = new Date().toISOString()
     try {
         logger.info(loggerDate, request.headers, request.url, request.method, request.body)
         logger.debug(`productIds: ${request.query.productIds}`)

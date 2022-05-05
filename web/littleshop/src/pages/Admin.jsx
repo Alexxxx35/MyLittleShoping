@@ -20,6 +20,7 @@ const Admin = () => {
   const [offset, setOffset] = useState(0)
   // const [data, setData] = useState("");
   const [form, setShowForm] = useState(false)
+  const [deletedEmail,setdeletedEmail] = useState('')
   const [popup, setShowPopUp] = useState(false)
   const [popupContent, setPopupContent] = useState('')
   const [popupTitle, setPopupTitle] = useState('')
@@ -34,7 +35,8 @@ const Admin = () => {
   }
 
   const displayForm = (e) => {
-    setShowForm(!e)
+    setShowForm(!form)
+    setdeletedEmail(e)
   }
 
   useEffect(() => {
@@ -65,6 +67,7 @@ const Admin = () => {
         })
         .then((response) => {
           // setRole(response.data.response)
+          console.log(response.data.response)
           localStorage.setItem('admin', JSON.stringify(response.data.response))
           //window.location.reload()
         })
@@ -83,7 +86,7 @@ const Admin = () => {
         <div className="admin-users-card">
           <AdminForm
             trigger={form}
-            email={userData.email}
+            email={deletedEmail}
             updateDisplay={() => {
               displayForm(form)
               console.log(form)
@@ -108,7 +111,7 @@ const Admin = () => {
             <b>Role: </b>
             {userData.role}
             <br />
-            <button className="deactivate-user" onClick={() => displayForm()}>
+            <button className="deactivate-user" onClick={() => displayForm(userData.email)}>
               Disable User <IoBan />
             </button>
           </div>

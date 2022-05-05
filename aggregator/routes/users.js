@@ -215,8 +215,9 @@ router.post("/seller/register", async (request, response) => {
 // ADMIN ROAD FOR ACCOUNT DISABLING //TODO DISABLE SELLERS PRODUCTS
 router.put("/disable", async (request, response) => {
     var loggerDate = new Date().toISOString()
+    console.log(request.body);
     try {
-        if (!request.body.password || !request.query.email) {
+        if (!request.body.password || !request.body.email) {
             logger.error(`timestamp:${loggerDate}, 
             headers:${request.headers}, 
             url:${request.url}, 
@@ -240,7 +241,7 @@ router.put("/disable", async (request, response) => {
                 "response": "Unauthorized"
             });
         }
-        const userEmailToDisable = request.query.email;
+        const userEmailToDisable = request.body.email;
         const userDisabled = await axios.put(roads.DISABLE_ACCOUNT_URL + "?email=" + userEmailToDisable, {
             password: request.body.password,
             headers: {
@@ -280,7 +281,7 @@ router.put("/deactivate", async (request, response) => {
                 "response": "Unauthorized"
             });
         }
-        if (!request.body.password) {
+        /*if (!request.body.password) {
             logger.error(`timestamp:${loggerDate}, 
                 headers:${request.headers}, 
                 url:${request.url}, 
@@ -290,7 +291,7 @@ router.put("/deactivate", async (request, response) => {
             return response.status(400).json({
                 "response": "Bad request format"
             });
-        }
+        }*/
         const deactivatedAccount = await axios.put(roads.DEACTIVATE_ACCOUNT_URL, {
             password: request.body.password
         }, {
