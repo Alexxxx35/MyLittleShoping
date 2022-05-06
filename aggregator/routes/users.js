@@ -215,7 +215,6 @@ router.post("/seller/register", async (request, response) => {
 // ADMIN ROAD FOR ACCOUNT DISABLING //TODO DISABLE SELLERS PRODUCTS
 router.put("/disable", async (request, response) => {
     var loggerDate = new Date().toISOString()
-    console.log(request.body);
     try {
         if (!request.body.password || !request.body.email) {
             logger.error(`timestamp:${loggerDate}, 

@@ -1,6 +1,9 @@
 version: "3.7"
 services:
   auth_db:
+    deploy:
+        mode: replicated
+        replicas: 3
     image: postgres:latest
     ports:
       - "${AUTH_DB_PORT}:${AUTH_DB_PORT}"
@@ -31,6 +34,9 @@ services:
     restart: on-failure
 
   inventory_db:
+    deploy:
+        mode: replicated
+        replicas: 3
     image: postgres:latest
     ports:
       - "${INVENTORY_DB_PORT}:${INVENTORY_DB_PORT}"
@@ -61,6 +67,9 @@ services:
     restart: on-failure
 
   order_db:
+    deploy:
+        mode: replicated
+        replicas: 3
     image: postgres:latest
     ports:
       - "${ORDER_DB_PORT}:${ORDER_DB_PORT}"
@@ -91,9 +100,9 @@ services:
     restart: on-failure
 
   aggregator:
-    #deploy:
-    #  mode: replicated
-    #  replicas: 2
+    deploy:
+      mode: replicated
+      replicas: 4
     image: aggregator:latest
     build: 
       context: ./aggregator/
@@ -126,9 +135,9 @@ services:
       - ./aggregator:/aggregator
 
   authentication:
-    #deploy:
-    #  mode: replicated
-    #  replicas: 8
+    deploy:
+      mode: replicated
+      replicas: 4
     image: authentication:latest
     build:
       context: ./authentication/
@@ -161,9 +170,9 @@ services:
       - ./authentication:/authentication
 
   inventory:
-    #deploy:
-    #    mode: replicated
-    #    replicas: 4
+    deploy:
+        mode: replicated
+        replicas: 3
     image: inventory:latest
     build:
       context: ./inventory/
@@ -214,6 +223,9 @@ services:
       - ./mailer:/mailer
 
   orders:
+    deploy:
+        mode: replicated
+        replicas: 3
     image: orders:latest
     build:
       context: ./orders/
